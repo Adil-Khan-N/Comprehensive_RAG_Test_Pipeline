@@ -1,0 +1,57 @@
+# Experiment 002: Hybrid RAG with Semantic Chunking + BGE Embeddings
+
+experiment:
+  name: "hybrid_semantic_bge"
+  description: "Advanced experiment using semantic chunking, BGE embeddings, and hybrid retrieval"
+  version: "1.0"
+
+# Chunking configuration
+chunking:
+  type: "semantic"  # Options: fixed, semantic, structure_aware, hybrid
+  similarity_threshold: 0.8
+  max_chunk_size: 800
+
+# Embeddings configuration  
+embeddings:
+  type: "bge"  # Options: openai, sentence_transformers, bge, e5, scibert, layoutlm
+  model_name: "BAAI/bge-large-en-v1.5"
+  
+# Vector database configuration
+vectordb:
+  type: "chroma"  # Options: faiss, chroma, milvus, qdrant, weaviate, pinecone
+  collection_name: "semantic_chunks"
+  
+# Retrieval configuration
+retriever:
+  type: "hybrid"  # Options: dense, bm25, hybrid
+  k: 10
+  dense_weight: 0.7
+  sparse_weight: 0.3
+  use_reranking: true
+  
+# Language model configuration
+llm:
+  type: "openai"  # Options: openai, local
+  model: "gpt-4"
+  temperature: 0.3
+  max_tokens: 750
+  
+# Evaluation configuration
+evaluation:
+  dataset_path: "data/qa_dataset.json"
+  metrics:
+    - "exact_match"
+    - "f1_score"
+    - "bleu_score"
+    - "rouge_l"
+  include_hallucination_detection: true
+    
+# Data paths
+data:
+  raw_pdfs_path: "data/raw_pdfs/"
+  processed_data_path: "data/processed/"
+  
+# Logging
+logging:
+  level: "DEBUG"
+  log_file: "logs/experiment_002.log"

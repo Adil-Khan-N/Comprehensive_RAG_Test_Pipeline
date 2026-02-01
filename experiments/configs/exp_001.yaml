@@ -1,0 +1,53 @@
+# Experiment 001: Baseline RAG with Fixed Chunking + OpenAI Embeddings
+
+experiment:
+  name: "baseline_fixed_openai"
+  description: "Baseline experiment using fixed chunking, OpenAI embeddings, and FAISS"
+  version: "1.0"
+
+# Chunking configuration
+chunking:
+  type: "fixed"  # Options: fixed, semantic, structure_aware, hybrid
+  chunk_size: 512
+  overlap: 50
+
+# Embeddings configuration  
+embeddings:
+  type: "openai"  # Options: openai, sentence_transformers, bge, e5, scibert, layoutlm
+  model: "text-embedding-ada-002"
+  
+# Vector database configuration
+vectordb:
+  type: "faiss"  # Options: faiss, chroma, milvus, qdrant, weaviate, pinecone
+  index_type: "FlatIP"
+  
+# Retrieval configuration
+retriever:
+  type: "dense"  # Options: dense, bm25, hybrid
+  k: 5
+  
+# Language model configuration
+llm:
+  type: "openai"  # Options: openai, local
+  model: "gpt-3.5-turbo"
+  temperature: 0.7
+  max_tokens: 500
+  
+# Evaluation configuration
+evaluation:
+  dataset_path: "data/qa_dataset.json"
+  metrics:
+    - "exact_match"
+    - "f1_score"
+    - "bleu_score"
+    - "rouge_l"
+    
+# Data paths
+data:
+  raw_pdfs_path: "data/raw_pdfs/"
+  processed_data_path: "data/processed/"
+  
+# Logging
+logging:
+  level: "INFO"
+  log_file: "logs/experiment_001.log"

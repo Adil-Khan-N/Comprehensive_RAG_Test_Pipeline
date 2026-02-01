@@ -1,0 +1,212 @@
+[
+  {
+    "id": "table_lookup_001",
+    "category": "table_extraction",
+    "question": "For Tubing Size O.D. 1.315\", what is the \"Gallons Per Linear Foot\" for a hole diameter of 4 3/4 inches?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_002", 
+    "category": "table_extraction",
+    "question": "In the table for O.D. 1.050\" (Four Strings), what is the \"Cu. Ft. Per Lin. Ft.\" value for a 7 5/8-inch hole?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_003",
+    "category": "table_extraction",
+    "question": "Locate the \"Lin. Ft. Per Barrel\" for a 5 1/4-inch hole using O.D. 1.314\" tubing (One String).",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_004",
+    "category": "table_extraction",
+    "question": "For O.D. 1.315\" (Two Strings), find the \"Barrels Per Lin. Ft.\" when the hole diameter is exactly 9 1/2 inches.",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_005",
+    "category": "table_extraction",
+    "question": "What is the \"Lin. Ft. Per Cu. Ft.\" for O.D. 1.315\" (Three Strings) in an 8-inch hole?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_006",
+    "category": "table_extraction",
+    "question": "Find the \"Gallons Per Lin. Ft.\" for a 10 1/8-inch hole using O.D. 1.315\" (Four Strings).",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_007",
+    "category": "table_extraction",
+    "question": "Identify the \"Lin. Ft. Per Barrel\" for O.D. 1.900\" (Four Strings) in a 6-inch hole.",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_008",
+    "category": "table_extraction",
+    "question": "In the O.D. 3.5005\" table (Four Strings), what is the \"Lin. Ft. Per Cu. Ft.\" for an 11 1/2-inch hole?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_009",
+    "category": "table_extraction",
+    "question": "What is the \"Barrels Per Lin. Ft.\" for a 7.00-inch O.D. Casing weighing 23.00 lb/ft?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "table_lookup_010",
+    "category": "table_extraction",
+    "question": "Using Table No. 132, what is the \"Buoyancy Factor\" for a fluid density of 11.3 lb/gal?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "comparison_001",
+    "category": "comparison",
+    "question": "Does the \"Barrels Per Lin. Ft.\" increase or decrease for a 5-inch hole when you move from One String (O.D. 1.315\") to Two Strings (O.D. 1.315\")?",
+    "expected_answer_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "comparison_002",
+    "category": "comparison",
+    "question": "Compare the \"Lin. Ft. Per Barrel\" for a 4-inch hole between Three Strings (O.D. 1.315\") and Four Strings (O.D. 1.315\").",
+    "expected_answer_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "comparison_003",
+    "category": "comparison",
+    "question": "Which configuration provides a higher \"Cu. Ft. Per Lin. Ft.\" for a 6 1/2-inch hole: O.D. 1.050\" (Four Strings) or O.D. 1.314\" (One String)?",
+    "expected_answer_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "calculation_001",
+    "category": "calculation",
+    "question": "Calculate the difference in \"Gallons Per Lin. Ft.\" for a 9-inch hole between Two Strings and Three Strings of O.D. 1.315\" tubing.",
+    "expected_answer_type": "numerical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "comparison_004",
+    "category": "comparison",
+    "question": "At a hole diameter of 3 3/4 inches, which has more \"Lin. Ft. Per Barrel\": One String (O.D. 1.314\") or Two Strings (O.D. 1.315\")?",
+    "expected_answer_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "note_extraction_001",
+    "category": "note_extraction",
+    "question": "What is the critical \"Note\" regarding couplings found at the top of the Tubing Size volume tables?",
+    "expected_answer_type": "text",
+    "difficulty": "easy"
+  },
+  {
+    "id": "specification_001",
+    "category": "specification",
+    "question": "According to the documentation for External Upset Tubing, are the listed Collapse and Internal Yield strengths \"minimum,\" \"average,\" or \"maximum\" values?",
+    "expected_answer_type": "text",
+    "difficulty": "medium"
+  },
+  {
+    "id": "reference_001",
+    "category": "reference",
+    "question": "Which specific API Bulletin is cited as the source for the formulas and calculations of pipe properties?",
+    "expected_answer_type": "text",
+    "difficulty": "easy"
+  },
+  {
+    "id": "note_extraction_002",
+    "category": "note_extraction",
+    "question": "What does the note marked with triple asterisks (***) say regarding the displacement of Casing and Couplings for Buttress joints?",
+    "expected_answer_type": "text",
+    "difficulty": "medium"
+  },
+  {
+    "id": "technical_data_001",
+    "category": "technical_data",
+    "question": "On the Coiled Tubing Technical Data page, what is the tensile strength listed for the very first entry?",
+    "expected_answer_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "calculation_method_001",
+    "category": "calculation_method",
+    "question": "What is the step-by-step method described to find the volume of a square or rectangular tank?",
+    "expected_answer_type": "procedure",
+    "difficulty": "medium"
+  },
+  {
+    "id": "calculation_method_002",
+    "category": "calculation_method",
+    "question": "How does the document define the calculation for the volume of a sphere?",
+    "expected_answer_type": "formula",
+    "difficulty": "medium"
+  },
+  {
+    "id": "calculation_method_003",
+    "category": "calculation_method",
+    "question": "To find the volume of a cylinder, what two components must be multiplied together according to the text?",
+    "expected_answer_type": "formula",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cosine_table_001",
+    "category": "table_extraction",
+    "question": "According to the Cosine Table, what is the cosine of 4 degrees?",
+    "expected_answer_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cosine_table_002",
+    "category": "table_extraction",
+    "question": "Find the cosine value for 65 degrees in the provided table.",
+    "expected_answer_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cement_time_001",
+    "category": "table_extraction",
+    "question": "In the \"Time - Hours\" table, what is the expected time for Portland Cement with 8% Gel at 120°F (49°C)?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cement_time_002",
+    "category": "comparison",
+    "question": "How does the setting time change for Pozmix® Cement (2% Gel) when the temperature increases from 140°F to 160°F?",
+    "expected_answer_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "cement_time_003",
+    "category": "table_extraction",
+    "question": "What is the time range for Portland Cement with 0% Gel at 100°F?",
+    "expected_answer_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cement_time_004",
+    "category": "analysis",
+    "question": "Which admixture configuration results in a time range of 9-12 hours at all listed temperatures (100°F to 160°F)?",
+    "expected_answer_type": "text",
+    "difficulty": "hard"
+  },
+  {
+    "id": "cement_time_005",
+    "category": "comparison",
+    "question": "If you add 4% Gel to Pozmix® Cement, what is the time at 160°F compared to 100°F?",
+    "expected_answer_type": "comparison",
+    "difficulty": "hard"
+  }
+]

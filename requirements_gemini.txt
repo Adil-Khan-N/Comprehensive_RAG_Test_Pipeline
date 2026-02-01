@@ -1,0 +1,36 @@
+# RAG Framework Requirements - Gemini Pro Integration
+
+# Core data science libraries
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# System monitoring
+psutil>=5.8.0
+
+# Google Gemini Pro API
+google-generativeai>=0.3.0
+
+# Optional: OpenAI for comparison (if needed)
+# openai>=1.0.0
+
+# Optional: Embedding models
+# sentence-transformers>=2.2.0
+# torch>=1.9.0
+# transformers>=4.20.0
+
+# Optional: Vector databases
+# faiss-cpu>=1.7.0
+# chromadb>=0.4.0
+
+# Development and testing
+pytest>=7.0.0
+jupyter>=1.0.0
+
+# YAML configuration support
+pyyaml>=6.0
