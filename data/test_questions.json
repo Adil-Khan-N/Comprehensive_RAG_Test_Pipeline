@@ -1,52 +1,103 @@
 [
   {
-    "id": "table_lookup_001",
+    "id": "question_001",
     "category": "table_extraction",
-    "question": "For Tubing Size O.D. 1.315\", what is the \"Gallons Per Linear Foot\" for a hole diameter of 4 3/4 inches?",
+    "question": "What is gallons per ft for 10.75\" Casing in 13\" hole?",
+    "expected_answer": "For 10¾\" casing in a 13\" hole: Gallons per linear ft: 2.1802, Linear ft per gallon: 0.4587",
     "expected_answer_type": "numerical",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "scoring_keywords": ["2.1802", "gallons per linear ft", "10.75", "13", "casing"],
+    "max_score": 10
   },
   {
-    "id": "table_lookup_002", 
-    "category": "table_extraction",
-    "question": "In the table for O.D. 1.050\" (Four Strings), what is the \"Cu. Ft. Per Lin. Ft.\" value for a 7 5/8-inch hole?",
+    "id": "question_002",
+    "category": "table_extraction", 
+    "question": "What is cu ft per Lin ft for 14.5\" hole and 11.75\" casing?",
+    "expected_answer": "For 11¾\" casing in a 14.5\" hole: Cu. Ft. per Linear Ft: 0.3937",
     "expected_answer_type": "numerical",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "scoring_keywords": ["0.3937", "cu ft per linear ft", "11.75", "14.5", "casing"],
+    "max_score": 10
   },
   {
-    "id": "table_lookup_003",
-    "category": "table_extraction",
-    "question": "Locate the \"Lin. Ft. Per Barrel\" for a 5 1/4-inch hole using O.D. 1.314\" tubing (One String).",
-    "expected_answer_type": "numerical",
-    "difficulty": "medium"
+    "id": "question_003",
+    "category": "technical_specifications",
+    "question": "What is the coiled tubing collapse pressure for 1in diameter and 0.080 in wall thickness?",
+    "expected_answer": "For 1.0\" diameter coiled tubing with 0.080\" wall thickness: 70 kpsi yield - 2% ovality no tensile: 4,770 psi, with tensile: 3,387 psi; 80 kpsi yield - 2% ovality no tensile: 5,593 psi, with tensile: 3,901 psi; 100 kpsi yield - 2% ovality no tensile: 6,633 psi, with tensile: 4,727 psi",
+    "expected_answer_type": "numerical_range",
+    "difficulty": "hard",
+    "scoring_keywords": ["4770", "5593", "6633", "collapse pressure", "coiled tubing", "1.0", "0.080"],
+    "max_score": 10
   },
   {
-    "id": "table_lookup_004",
-    "category": "table_extraction",
-    "question": "For O.D. 1.315\" (Two Strings), find the \"Barrels Per Lin. Ft.\" when the hole diameter is exactly 9 1/2 inches.",
+    "id": "question_004", 
+    "category": "technical_specifications",
+    "question": "What is the maximum allowable SF for tubing utilization between 50 and 60%?",
+    "expected_answer": "Maximum Allowable Safety Factor (SF) is 0.72",
     "expected_answer_type": "numerical",
-    "difficulty": "medium"
+    "difficulty": "easy",
+    "scoring_keywords": ["0.72", "safety factor", "SF", "maximum allowable", "50", "60"],
+    "max_score": 10
   },
   {
-    "id": "table_lookup_005",
-    "category": "table_extraction",
-    "question": "What is the \"Lin. Ft. Per Cu. Ft.\" for O.D. 1.315\" (Three Strings) in an 8-inch hole?",
-    "expected_answer_type": "numerical",
-    "difficulty": "medium"
+    "id": "question_005",
+    "category": "specification_extraction",
+    "question": "What is the recommended WOB for PDC Coring bit FCI274LI and the iadc code?",
+    "expected_answer": "Recommended WOB: 250-3,500 lb/in. diameter",
+    "expected_answer_type": "numerical_range", 
+    "difficulty": "medium",
+    "scoring_keywords": ["250", "3500", "lb/in", "WOB", "FCI274LI", "diameter"],
+    "max_score": 10
   },
   {
-    "id": "table_lookup_006",
-    "category": "table_extraction",
-    "question": "Find the \"Gallons Per Lin. Ft.\" for a 10 1/8-inch hole using O.D. 1.315\" (Four Strings).",
-    "expected_answer_type": "numerical",
-    "difficulty": "medium"
+    "id": "question_006",
+    "category": "material_compatibility",
+    "question": "Is baro lube gold seal recommended for polymer water based fluid?",
+    "expected_answer": "Yes, BARO-LUBE GOLD SEAL is recommended for polymer water-based fluids.",
+    "expected_answer_type": "yes_no",
+    "difficulty": "easy",
+    "scoring_keywords": ["yes", "baro-lube", "gold seal", "recommended", "polymer", "water-based"],
+    "max_score": 10
   },
   {
-    "id": "table_lookup_007",
-    "category": "table_extraction",
-    "question": "Identify the \"Lin. Ft. Per Barrel\" for O.D. 1.900\" (Four Strings) in a 6-inch hole.",
+    "id": "question_007",
+    "category": "material_properties",
+    "question": "What is the bulk weight for Micro Fly Ash cementing material?",
+    "expected_answer": "Bulk Weight: 1041 Kg/m³ (or 65 lbs/cu ft in English units)",
     "expected_answer_type": "numerical",
-    "difficulty": "medium"
+    "difficulty": "easy",
+    "scoring_keywords": ["1041", "65", "bulk weight", "micro fly ash", "kg/m³", "lbs/cu ft"],
+    "max_score": 10
+  },
+  {
+    "id": "question_008",
+    "category": "material_properties", 
+    "question": "Give the physical properties and water requirements for Diacel A material",
+    "expected_answer": "Bulk Weight: 60.3 lbs/cu ft, Specific Gravity: 2.62, Absolute: 0.0458 gals/lb, Volume: 0.0061 cu ft/lb, Activity: 100%, State: Dry, Water Requirements: none. Metric: Bulk Weight: 966 Kg/m³, Absolute Volume: 0.3824 L/Kg",
+    "expected_answer_type": "detailed_specs",
+    "difficulty": "hard",
+    "scoring_keywords": ["60.3", "2.62", "0.0458", "966", "100%", "none", "diacel A", "bulk weight", "specific gravity"],
+    "max_score": 10
+  },
+  {
+    "id": "question_009",
+    "category": "technical_testing",
+    "question": "What is the thickening time for 0% bentonite in 1220m casing test?",
+    "expected_answer": "For 0% bentonite in a 1220m API casing test: Thickening Time: 3:00+ (3 hours or more)",
+    "expected_answer_type": "time_duration",
+    "difficulty": "medium",
+    "scoring_keywords": ["3:00", "3 hours", "thickening time", "0%", "bentonite", "1220m", "casing test"],
+    "max_score": 10
+  },
+  {
+    "id": "question_010",
+    "category": "technical_testing",
+    "question": "What is the 24 hour compressive strength for 94 pound cement with 0 sand pound and 50 sand pound?",
+    "expected_answer": "With 0 pounds sand: At 95°F, 800 psi: 2,085 psi; At 110°F, 1,600 psi: 2,925 psi. With 50 pounds sand: At 95°F, 800 psi: 2,036 psi; At 110°F, 1,600 psi: 3,385 psi",
+    "expected_answer_type": "numerical_multiple",
+    "difficulty": "hard",
+    "scoring_keywords": ["2085", "2925", "2036", "3385", "24 hour", "compressive strength", "94 pound", "cement", "sand"],
+    "max_score": 10
   },
   {
     "id": "table_lookup_008",

@@ -1,0 +1,137 @@
+# RAG Framework - Complete Requirements
+# ====================================
+# This file contains ALL packages needed for the complete RAG framework
+# with all 144 pipeline combinations (4 chunking × 6 embeddings × 6 vector databases)
+
+# ===========================
+# CORE DEPENDENCIES
+# ===========================
+
+# Essential data science libraries
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+tabulate>=0.9.0  # For markdown table generation
+tabulate>=0.9.0  # For pandas markdown table generation
+
+# Environment and configuration
+python-dotenv>=1.0.0
+pyyaml>=6.0
+psutil>=5.8.0
+
+# ===========================
+# LANGCHAIN ECOSYSTEM
+# ===========================
+
+# LangChain core framework
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-community>=0.0.10
+langchain-text-splitters>=0.0.1
+langchain-experimental>=0.4.0  # For SemanticChunker
+
+# LangChain integrations for embeddings
+langchain-openai>=0.0.5
+langchain-huggingface>=0.0.1
+
+# LangChain integrations for vector stores
+langchain-pinecone>=0.0.1
+langchain-qdrant>=0.0.1
+langchain-weaviate>=0.0.1
+langchain-milvus>=0.0.1
+
+# ===========================
+# EMBEDDING MODELS (6 total)
+# ===========================
+
+# 1-5: HuggingFace based embeddings (SentenceTransformers, BGE, E5, SciBERT, LayoutLM)
+sentence-transformers>=2.2.0
+transformers>=4.20.0
+torch>=1.9.0  # Required for transformer models
+
+# 6: OpenAI embeddings (optional - requires API key)
+openai>=1.0.0
+
+# ===========================
+# VECTOR DATABASES (6 total)
+# ===========================
+
+# 1: FAISS - Meta's similarity search
+faiss-cpu>=1.7.0
+
+# 2: ChromaDB - Open-source embedding database  
+chromadb>=0.4.0
+
+# 3: Milvus - Cloud-native vector database
+pymilvus>=2.0.0
+
+# 4: Qdrant - Vector similarity search engine
+qdrant-client>=1.0.0
+
+# 5: Weaviate - Vector search with ML models
+weaviate-client>=3.0.0
+
+# 6: Pinecone - Managed vector database service  
+pinecone-client>=2.0.0
+
+# ===========================
+# GEMINI LLM INTEGRATION
+# ===========================
+
+# Google Gemini Pro API for question answering
+google-generativeai>=0.3.0
+
+# ===========================
+# DEVELOPMENT & TESTING
+# ===========================
+
+# Testing framework
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+
+# Jupyter for interactive development
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Code quality
+black>=22.0.0
+isort>=5.0.0
+flake8>=4.0.0
+
+# ===========================
+# OPTIONAL DEPENDENCIES
+# ===========================
+
+# Uncomment if you need additional LLMs
+# anthropic>=0.3.0  # For Claude API
+# together>=0.2.0   # For Together AI API
+
+# Uncomment for GPU acceleration (if you have CUDA)
+# faiss-gpu>=1.7.0  # Instead of faiss-cpu
+# torch-audio>=0.9.0  # For advanced audio processing
+
+# ===========================
+# INSTALLATION NOTES
+# ===========================
+
+# BASIC INSTALLATION (Required for all 144 combinations):
+# pip install -r requirements.txt
+
+# QUICK START (Minimal for testing):
+# pip install langchain langchain-community langchain-text-splitters 
+# pip install sentence-transformers transformers torch
+# pip install faiss-cpu chromadb google-generativeai pandas
+
+# API KEYS NEEDED:
+# - GEMINI_API_KEY (required for LLM responses)
+# - OPENAI_API_KEY (optional, only if using OpenAI embeddings)
+# - PINECONE_API_KEY (optional, only if using Pinecone vector DB)
+
+# VECTOR DATABASE SETUP:
+# Most vector databases work out of the box with pip install
+# Some may require additional setup:
+# - Milvus: May need Docker for local deployment
+# - Weaviate: May need Docker for local deployment  
+# - Qdrant: Works with cloud or local Docker deployment

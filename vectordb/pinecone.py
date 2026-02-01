@@ -1,32 +1,39 @@
-"""Pinecone vector database implementation."""
+"""Pinecone vector database implementation using LangChain."""
 
-from typing import List, Dict, Any, Optional
-import numpy as np
+from langchain_pinecone import PineconeVectorStore
 from .base import BaseVectorDB
+from typing import List, Dict, Any, Optional
+from langchain_core.documents import Document
 
 
 class PineconeVectorDB(BaseVectorDB):
-    """Pinecone vector database implementation."""
+    """Pinecone vector database using LangChain implementation."""
     
-    def __init__(self, api_key: str, index_name: str, environment: str = "us-west1-gcp"):
-        self.api_key = api_key
+    def __init__(self, embeddings, index_name: str, api_key: Optional[str] = None):
+        super().__init__()
+        self.embeddings = embeddings
         self.index_name = index_name
-        self.environment = environment
-        # TODO: Initialize Pinecone
-        # import pinecone
-        # pinecone.init(api_key=api_key, environment=environment)
-        # self.index = pinecone.Index(index_name)
-        self.vectors_map = {}
-        self.metadata_map = {}
+        self.vectorstore = PineconeVectorStore(
+            index_name=index_name,
+            embedding=embeddings,
+            pinecone_api_key=api_key
+        )
         
-    def add_vectors(self, vectors: List[np.ndarray], ids: List[str], 
-                   metadata: Optional[List[Dict[str, Any]]] = None) -> None:
-        """Add vectors to Pinecone index."""
-        # TODO: Implement Pinecone upsert
-        for i, (vector, id_) in enumerate(zip(vectors, ids)):
-            self.vectors_map[id_] = vector
-            if metadata:
-                self.metadata_map[id_] = metadata[i]
+    def add_texts(self, texts: List[str], metadatas: Optional[List[Dict[str, Any]]] = None, ids: Optional[List[str]] = None) -> List[str]:
+        """Add texts to Pinecone vector store."""
+        return self.vectorstore.add_texts(texts, metadatas=metadatas, ids=ids)
+    
+    def similarity_search(self, query: str, k: int = 5) -> List[Document]:
+        """Search for similar documents in Pinecone."""
+        return self.vectorstore.similarity_search(query, k=k)
+    
+    def similarity_search_with_score(self, query: str, k: int = 5) -> List[tuple]:
+        """Search with similarity scores."""
+        return self.vectorstore.similarity_search_with_score(query, k=k)
+    
+    def delete(self, ids: List[str]) -> bool:
+        """Delete vectors by ids."""
+        return self.vectorstore.delete(ids=ids)
         
     def search(self, query_vector: np.ndarray, k: int = 5) -> List[Dict[str, Any]]:
         """Search using Pinecone."""

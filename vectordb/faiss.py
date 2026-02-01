@@ -1,33 +1,52 @@
-"""FAISS vector database implementation."""
+"""FAISS vector database implementation using LangChain."""
 
-from typing import List, Dict, Any, Optional
-import numpy as np
+from langchain_community.vectorstores import FAISS
 from .base import BaseVectorDB
+from typing import List, Dict, Any, Optional
+from langchain_core.documents import Document
 
 
 class FAISSVectorDB(BaseVectorDB):
-    """FAISS vector database implementation."""
+    """FAISS vector database using LangChain implementation."""
     
-    def __init__(self, dimension: int, index_type: str = "FlatIP"):
-        self.dimension = dimension
-        self.index_type = index_type
-        # TODO: Initialize FAISS index
-        # import faiss
-        # self.index = faiss.IndexFlatIP(dimension)
-        self.vectors_map = {}
-        self.metadata_map = {}
+    def __init__(self, embeddings):
+        super().__init__()
+        self.embeddings = embeddings
+        self.vectorstore = None
         
-    def add_vectors(self, vectors: List[np.ndarray], ids: List[str], 
-                   metadata: Optional[List[Dict[str, Any]]] = None) -> None:
-        """Add vectors to FAISS index."""
-        # TODO: Implement FAISS vector addition
-        for i, (vector, id_) in enumerate(zip(vectors, ids)):
-            self.vectors_map[id_] = vector
-            if metadata:
-                self.metadata_map[id_] = metadata[i]
-        
-    def search(self, query_vector: np.ndarray, k: int = 5) -> List[Dict[str, Any]]:
-        """Search using FAISS index."""
+    def add_texts(self, texts: List[str], metadatas: Optional[List[Dict[str, Any]]] = None, ids: Optional[List[str]] = None) -> List[str]:
+        """Add texts to FAISS vector store."""
+        if self.vectorstore is None:
+            # Initialize FAISS with first batch of texts
+            self.vectorstore = FAISS.from_texts(texts, self.embeddings, metadatas=metadatas, ids=ids)
+            return ids or [str(i) for i in range(len(texts))]
+        else:
+            # Add to existing FAISS index
+            return self.vectorstore.add_texts(texts, metadatas=metadatas, ids=ids)
+    
+    def similarity_search(self, query: str, k: int = 5) -> List[Document]:
+        """Search for similar documents in FAISS."""
+        if self.vectorstore is None:
+            return []
+        return self.vectorstore.similarity_search(query, k=k)
+    
+    def similarity_search_with_score(self, query: str, k: int = 5) -> List[tuple]:
+        """Search with similarity scores."""
+        if self.vectorstore is None:
+            return []
+        return self.vectorstore.similarity_search_with_score(query, k=k)
+    
+    def save_local(self, folder_path: str):
+        """Save FAISS index locally."""
+        if self.vectorstore is not None:
+            self.vectorstore.save_local(folder_path)
+    
+    @classmethod
+    def load_local(cls, folder_path: str, embeddings):
+        """Load FAISS index from local storage."""
+        instance = cls(embeddings)
+        instance.vectorstore = FAISS.load_local(folder_path, embeddings, allow_dangerous_deserialization=True)
+        return instance
         # TODO: Implement FAISS search
         # For now, return mock results
         results = []

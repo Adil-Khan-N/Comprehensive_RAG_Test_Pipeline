@@ -1,39 +1,55 @@
-"""Base class for vector databases."""
+"""Base class for vector databases using LangChain."""
 
-from abc import ABC, abstractmethod
+from langchain_core.vectorstores import VectorStore
 from typing import List, Dict, Any, Optional
-import numpy as np
+from langchain_core.documents import Document
 
 
-class BaseVectorDB(ABC):
-    """Abstract base class for vector databases."""
+class BaseVectorDB:
+    """Base class wrapping LangChain VectorStore interface."""
     
-    @abstractmethod
-    def add_vectors(self, vectors: List[np.ndarray], ids: List[str], 
-                   metadata: Optional[List[Dict[str, Any]]] = None) -> None:
-        """Add vectors to the database.
+    def __init__(self):
+        self.vectorstore: VectorStore = None
+    
+    def add_texts(self, texts: List[str], metadatas: Optional[List[Dict[str, Any]]] = None, ids: Optional[List[str]] = None) -> List[str]:
+        """Add texts to the vector store.
         
         Args:
-            vectors: List of embedding vectors
-            ids: List of unique identifiers
-            metadata: Optional metadata for each vector
+            texts: List of texts to add
+            metadatas: Optional list of metadata dicts
+            ids: Optional list of ids
+            
+        Returns:
+            List of ids of the added texts
         """
-        pass
+        if self.vectorstore is None:
+            raise NotImplementedError("vectorstore must be initialized in subclass")
+        return self.vectorstore.add_texts(texts, metadatas=metadatas, ids=ids)
     
-    @abstractmethod
-    def search(self, query_vector: np.ndarray, k: int = 5) -> List[Dict[str, Any]]:
-        """Search for similar vectors.
+    def similarity_search(self, query: str, k: int = 5) -> List[Document]:
+        """Search for similar documents.
         
         Args:
-            query_vector: Query embedding vector
+            query: Query string
             k: Number of results to return
             
         Returns:
-            List of search results with ids, scores, and metadata
+            List of similar documents
         """
-        pass
+        if self.vectorstore is None:
+            raise NotImplementedError("vectorstore must be initialized in subclass")
+        return self.vectorstore.similarity_search(query, k=k)
     
-    @abstractmethod
-    def delete(self, ids: List[str]) -> None:
-        """Delete vectors by ids."""
-        pass
+    def similarity_search_with_score(self, query: str, k: int = 5) -> List[tuple]:
+        """Search for similar documents with similarity scores.
+        
+        Args:
+            query: Query string
+            k: Number of results to return
+            
+        Returns:
+            List of (document, score) tuples
+        """
+        if self.vectorstore is None:
+            raise NotImplementedError("vectorstore must be initialized in subclass")
+        return self.vectorstore.similarity_search_with_score(query, k=k)

@@ -1,28 +1,45 @@
-"""Weaviate vector database implementation."""
+"""Weaviate vector database implementation using LangChain."""
 
-from typing import List, Dict, Any, Optional
-import numpy as np
+from langchain_weaviate.vectorstores import WeaviateVectorStore
 from .base import BaseVectorDB
+from typing import List, Dict, Any, Optional
+from langchain_core.documents import Document
+import weaviate
 
 
 class WeaviateVectorDB(BaseVectorDB):
-    """Weaviate vector database implementation."""
+    """Weaviate vector database using LangChain implementation."""
     
-    def __init__(self, url: str = "http://localhost:8080", class_name: str = "Document"):
-        self.url = url
-        self.class_name = class_name
-        # TODO: Initialize Weaviate client
-        # import weaviate
-        # self.client = weaviate.Client(url)
-        self.vectors_map = {}
-        self.metadata_map = {}
+    def __init__(self, embeddings, url: str = "http://localhost:8080", 
+                 index_name: str = "RAGCollection", auth_config=None):
+        super().__init__()
+        self.embeddings = embeddings
+        self.index_name = index_name
         
-    def add_vectors(self, vectors: List[np.ndarray], ids: List[str], 
-                   metadata: Optional[List[Dict[str, Any]]] = None) -> None:
-        """Add vectors to Weaviate."""
-        # TODO: Implement Weaviate object creation
-        for i, (vector, id_) in enumerate(zip(vectors, ids)):
-            self.vectors_map[id_] = vector
+        # Initialize Weaviate client
+        if auth_config:
+            client = weaviate.Client(url=url, auth_client_secret=auth_config)
+        else:
+            client = weaviate.Client(url=url)
+            
+        self.vectorstore = WeaviateVectorStore(
+            client=client,
+            index_name=index_name,
+            text_key="text",
+            embedding=embeddings
+        )
+        
+    def add_texts(self, texts: List[str], metadatas: Optional[List[Dict[str, Any]]] = None, ids: Optional[List[str]] = None) -> List[str]:
+        """Add texts to Weaviate vector store."""
+        return self.vectorstore.add_texts(texts, metadatas=metadatas, ids=ids)
+    
+    def similarity_search(self, query: str, k: int = 5) -> List[Document]:
+        """Search for similar documents in Weaviate."""
+        return self.vectorstore.similarity_search(query, k=k)
+    
+    def similarity_search_with_score(self, query: str, k: int = 5) -> List[tuple]:
+        """Search with similarity scores."""
+        return self.vectorstore.similarity_search_with_score(query, k=k)
             if metadata:
                 self.metadata_map[id_] = metadata[i]
         

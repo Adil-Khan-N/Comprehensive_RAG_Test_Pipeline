@@ -1,4 +1,4 @@
-"""RAG Framework - vectordb module."""
+"""RAG Framework - vectordb module with LangChain implementations."""
 
 from .base import BaseVectorDB
 from .faiss import FAISSVectorDB

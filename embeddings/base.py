@@ -1,33 +1,44 @@
-"""Base class for text embeddings."""
+"""Base class for text embeddings using LangChain."""
 
-from abc import ABC, abstractmethod
+from langchain_core.embeddings import Embeddings
 from typing import List
-import numpy as np
 
 
-class BaseEmbeddings(ABC):
-    """Abstract base class for text embedding models."""
+class BaseEmbeddings(Embeddings):
+    """Base class wrapping LangChain Embeddings interface."""
     
-    @abstractmethod
-    def embed_text(self, text: str) -> np.ndarray:
-        """Generate embeddings for a single text.
+    def __init__(self):
+        super().__init__()
+    
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        """Embed search docs.
         
         Args:
-            text: Input text to embed
+            texts: List of text to embed.
             
         Returns:
-            Numpy array of embeddings
+            List of embeddings, one for each text.
         """
-        pass
+        raise NotImplementedError
     
-    @abstractmethod
-    def embed_batch(self, texts: List[str]) -> List[np.ndarray]:
-        """Generate embeddings for a batch of texts.
+    def embed_query(self, text: str) -> List[float]:
+        """Embed query text.
         
         Args:
-            texts: List of input texts to embed
+            text: Text to embed.
             
         Returns:
-            List of numpy arrays containing embeddings
+            Embedding for the text.
+        """
+        raise NotImplementedError
+
+    def embed_batch(self, texts: List[str]) -> List[List[float]]:
+        """Generate embeddings for batch of texts.
+        
+        Args:
+            texts: List of texts to embed.
+            
+        Returns:
+            List of embedding vectors.
         """
         pass

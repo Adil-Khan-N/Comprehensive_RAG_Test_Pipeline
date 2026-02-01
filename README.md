@@ -1,300 +1,185 @@
-# RAG Framework
+# RAG Framework - Comprehensive Testing System
 
-A comprehensive Retrieval-Augmented Generation (RAG) framework for building, evaluating, and comparing different RAG pipelines. This framework supports multiple chunking strategies, embedding models, vector databases, retrieval methods, and language models.
+A complete RAG (Retrieval-Augmented Generation) framework using LangChain with comprehensive testing of all component combinations.
 
-## 🏗️ Architecture
+## 🏗️ Framework Architecture
+
+### Components
+- **4 Chunking Strategies**: Fixed, Semantic, Structure-Aware, Hybrid
+- **6 Embedding Models**: SentenceTransformers, BGE, E5, SciBERT, LayoutLM, OpenAI
+- **6 Vector Databases**: FAISS, ChromaDB, Milvus, Qdrant, Weaviate, Pinecone
+
+### Total Combinations
+**144 pipeline combinations** (4 × 6 × 6) tested against 10 technical questions each = **1,440 individual tests**
+
+## 🚀 Quick Start
+
+### Option 1: Quick Test (Recommended First)
+```bash
+python test_quick_sample.py
+```
+- **12 representative combinations**
+- **Runtime: 8-15 minutes**
+- **120 individual tests**
+- Great for initial validation
+
+### Option 2: Full Comprehensive Test  
+```bash
+python test_all_combinations.py
+```
+- **All 144 combinations**
+- **Runtime: 45-90 minutes**
+- **1,440 individual tests**
+- Complete performance matrix
+
+### Option 3: Batch Execution (Windows)
+```batch
+run_all_tests.bat
+```
+- Same as Option 2 with automation
+- Handles prerequisites and cleanup
+
+### Option 4: View Components
+```bash
+python show_components.py
+```
+- Shows all available components
+- Testing options summary
+- No actual testing
+
+## 📊 Testing Methodology
+
+### Questions Dataset
+10 technical questions covering:
+- Software engineering principles
+- Data structures and algorithms
+- System design concepts
+- Machine learning fundamentals
+- Database management
+
+### Scoring System (Advanced 4-Component)
+1. **Keyword Matching** (25%): Technical term coverage
+2. **Numerical Accuracy** (25%): Quantitative correctness 
+3. **Semantic Relevance** (25%): Contextual understanding
+4. **Completeness** (25%): Comprehensive coverage
+
+### Output Reports
+- **Detailed Results**: `output/comprehensive_test_results_YYYYMMDD_HHMMSS.csv`
+- **Component Analysis**: `output/component_analysis_YYYYMMDD_HHMMSS.csv`
+- **Performance Ranking**: Console display with top performers
+
+## 📁 Project Structure
 
 ```
 rag_framework/
-├── data/                    # Data storage
-│   ├── raw_pdfs/           # Original PDF documents
-│   ├── marker_md/          # Markdown converted documents
-│   └── ocr_outputs/        # OCR processed documents
-├── chunking/               # Text chunking strategies
-├── embeddings/             # Text embedding models
-├── vectordb/               # Vector database implementations
-├── retriever/              # Document retrieval methods
-├── llm/                    # Language model interfaces
-├── evaluation/             # Evaluation metrics and datasets
-└── experiments/            # Experiment configurations and runner
+├── chunking/              # LangChain text splitters
+│   ├── fixed.py          # RecursiveCharacterTextSplitter
+│   ├── semantic.py       # SemanticChunker  
+│   ├── structure_aware.py # MarkdownHeaderTextSplitter
+│   └── hybrid.py         # Combined approach
+├── embeddings/           # LangChain embeddings
+│   ├── sentence_transformers.py  # HuggingFaceEmbeddings
+│   ├── bge.py           # BGE model
+│   ├── e5.py            # E5 model
+│   ├── scibert.py       # SciBERT model
+│   ├── layoutlm.py      # LayoutLM model  
+│   └── openai.py        # OpenAIEmbeddings
+├── vectordb/             # LangChain vector stores
+│   ├── faiss.py         # FAISS
+│   ├── chroma.py        # ChromaDB
+│   ├── milvus.py        # Milvus
+│   ├── qdrant.py        # Qdrant
+│   ├── weaviate.py      # Weaviate
+│   └── pinecone.py      # Pinecone
+├── comprehensive_rag_test.py      # Main testing framework
+├── test_all_combinations.py       # Full test execution
+├── test_quick_sample.py          # Quick test execution  
+├── show_components.py            # Component inventory
+├── run_all_tests.bat            # Windows batch script
+└── output/                      # Test results directory
 ```
 
-## 🚀 Features
+## 🔧 Installation
 
-### Chunking Strategies
-- **Fixed Size**: Traditional fixed-size chunking with overlap
-- **Semantic**: Semantic boundary-aware chunking
-- **Structure Aware**: Preserves document structure (headers, paragraphs)
-- **Hybrid**: Combines multiple chunking approaches
-
-### Embedding Models
-- **OpenAI**: text-embedding-ada-002 and other OpenAI models
-- **Sentence Transformers**: Wide variety of open-source models
-- **BGE**: BAAI General Embeddings
-- **E5**: Microsoft E5 embeddings
-- **SciBERT**: Scientific domain-specific embeddings
-- **LayoutLM**: Document layout understanding
-
-### Vector Databases
-- **FAISS**: Meta's similarity search library
-- **ChromaDB**: Open-source embedding database
-- **Milvus**: Cloud-native vector database
-- **Qdrant**: Vector similarity search engine
-- **Weaviate**: Vector search engine with ML models
-- **Pinecone**: Managed vector database service
-
-### Retrieval Methods
-- **Dense Retrieval**: Semantic similarity using embeddings
-- **BM25**: Traditional sparse retrieval
-- **Hybrid**: Combines dense and sparse retrieval
-- **Reranking**: Cross-encoder based result refinement
-
-### Language Models
-- **OpenAI**: GPT-3.5, GPT-4, and other OpenAI models
-- **Local Models**: Support for local LLM inference
-
-### Evaluation Metrics
-- **Standard QA Metrics**: Exact Match, F1, BLEU, ROUGE-L
-- **Table-Specific Metrics**: Cell accuracy, structure accuracy
-- **Hallucination Detection**: Numerical, factual, and entity hallucinations
-
-## 📦 Installation
-
+### Prerequisites
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd rag_framework
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Optional: Install specific dependencies for each component
-pip install faiss-cpu chromadb sentence-transformers
-pip install openai pinecone-client qdrant-client
+pip install langchain>=0.1.0 langchain-community langchain-text-splitters
+pip install sentence-transformers transformers torch
+pip install faiss-cpu chromadb
+pip install openai  # If using OpenAI embeddings
 ```
 
-## 🔧 Quick Start
-
-### 1. Basic RAG Pipeline
-
-```python
-from chunking import FixedSizeChunker
-from embeddings import OpenAIEmbeddings
-from vectordb import FAISSVectorDB
-from retriever import DenseRetriever
-from llm import OpenAILLM
-
-# Setup components
-chunker = FixedSizeChunker(chunk_size=512, overlap=50)
-embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
-vectordb = FAISSVectorDB(dimension=1536)
-retriever = DenseRetriever(embeddings, vectordb)
-llm = OpenAILLM(model="gpt-3.5-turbo")
-
-# Process documents
-texts = ["Your document text here..."]
-chunks = chunker.chunk(texts[0])
-vectors = embeddings.embed_batch(chunks)
-vectordb.add_vectors(vectors, [f"chunk_{i}" for i in range(len(chunks))])
-
-# Query the system
-query = "What is the main topic?"
-results = retriever.retrieve(query, k=5)
-context = "\\n".join([r['text'] for r in results])
-response = llm.generate(f"Context: {context}\\nQuestion: {query}")
-```
-
-### 2. Running Experiments
-
-Create an experiment configuration:
-
-```yaml
-# experiments/configs/my_experiment.yaml
-experiment:
-  name: "my_rag_experiment"
-  description: "Testing semantic chunking with BGE embeddings"
-
-chunking:
-  type: "semantic"
-  similarity_threshold: 0.8
-
-embeddings:
-  type: "bge"
-  model_name: "BAAI/bge-large-en-v1.5"
-
-vectordb:
-  type: "faiss"
-
-retriever:
-  type: "dense"
-  k: 5
-
-llm:
-  type: "openai"
-  model: "gpt-3.5-turbo"
-
-evaluation:
-  dataset_path: "data/qa_dataset.json"
-```
-
-Run the experiment:
-
+### Optional Vector Database Dependencies
 ```bash
-cd experiments
-python run_experiment.py configs/my_experiment.yaml
+# For Milvus
+pip install pymilvus
+
+# For Qdrant  
+pip install qdrant-client
+
+# For Weaviate
+pip install weaviate-client
+
+# For Pinecone
+pip install pinecone-client
 ```
 
-### 3. Evaluation
+## 📈 Example Output
 
-```python
-from evaluation import QADataset, RAGMetrics, HallucinationDetector
+```
+🏆 TOP 10 PIPELINE COMBINATIONS:
+═══════════════════════════════════════════════════════════════════════
 
-# Load evaluation dataset
-dataset = QADataset("data/qa_dataset.json")
+Rank | Avg Score | Pipeline Configuration
+-----|-----------|------------------------------------------------
+  1  |   0.875   | SemanticChunker + BGEEmbeddings + ChromaVectorDB
+  2  |   0.842   | HybridChunker + E5Embeddings + FAISSVectorDB  
+  3  |   0.831   | SemanticChunker + E5Embeddings + QdrantVectorDB
+  4  |   0.819   | StructureAwareChunker + BGEEmbeddings + MilvusVectorDB
+  5  |   0.806   | HybridChunker + SentenceTransformersEmbeddings + ChromaVectorDB
 
-# Evaluate predictions
-metrics = RAGMetrics()
-predictions = ["Answer 1", "Answer 2"]
-ground_truths = ["Ground truth 1", "Ground truth 2"]
-results = metrics.evaluate_batch(predictions, ground_truths)
+📊 Component Performance Summary:
+═══════════════════════════════════════════════════════════════════════
 
-# Check for hallucinations
-detector = HallucinationDetector()
-hallucination_analysis = detector.comprehensive_hallucination_check(
-    response="Generated answer",
-    source_context="Source document content"
-)
+🔧 Best Chunking Strategy: SemanticChunker (Avg: 0.823)
+🧠 Best Embedding Model: BGEEmbeddings (Avg: 0.815)  
+🗃️ Best Vector Database: ChromaVectorDB (Avg: 0.808)
+
+Total Combinations Tested: 144
+Total Individual Tests: 1,440
+Overall Success Rate: 89.2%
 ```
 
-## 📊 Experiment Configuration
+## 🎯 Use Cases
 
-The framework uses YAML configuration files for experiments. Key sections:
+- **Performance Comparison**: Identify optimal component combinations
+- **Component Analysis**: Understand individual component strengths
+- **Baseline Establishment**: Set performance benchmarks
+- **Configuration Selection**: Choose best setup for your use case
+- **Research & Development**: Systematic evaluation of RAG architectures
 
-- **experiment**: Metadata and description
-- **chunking**: Chunking strategy and parameters
-- **embeddings**: Embedding model configuration
-- **vectordb**: Vector database settings
-- **retriever**: Retrieval method and parameters
-- **llm**: Language model configuration
-- **evaluation**: Dataset and metrics specification
+## ⚠️ Important Notes
 
-## 🔍 Evaluation Metrics
-
-### Standard Metrics
-- **Exact Match**: Binary exact string match
-- **F1 Score**: Token-level precision and recall
-- **BLEU**: N-gram based evaluation
-- **ROUGE-L**: Longest common subsequence
-
-### Advanced Metrics
-- **Table Metrics**: Structure and cell-level accuracy
-- **Hallucination Detection**: Identifies factual inconsistencies
-- **Context Overlap**: Measures grounding in source material
-
-## 🛠️ Extending the Framework
-
-### Adding New Components
-
-1. **New Chunker**: Inherit from `BaseChunker` in `chunking/base.py`
-2. **New Embeddings**: Inherit from `BaseEmbeddings` in `embeddings/base.py`
-3. **New Vector DB**: Inherit from `BaseVectorDB` in `vectordb/base.py`
-4. **New LLM**: Inherit from `BaseLLM` in `llm/base.py`
-
-### Custom Evaluation Metrics
-
-Add new metrics to `evaluation/metrics.py` or create specialized metric classes.
-
-## 📝 Data Formats
-
-### QA Dataset Format
-```json
-[
-  {
-    "question": "What is the capital of France?",
-    "answer": "Paris",
-    "context": "France is a country in Europe. Its capital is Paris."
-  }
-]
-```
-
-### Document Metadata Format
-```json
-{
-  "id": "doc_001",
-  "title": "Document Title",
-  "source": "path/to/document.pdf",
-  "page": 1,
-  "chunk_id": "chunk_001"
-}
-```
+1. **Runtime**: Full testing takes 45-90 minutes. Start with quick test.
+2. **Resources**: Requires sufficient RAM for vector operations
+3. **Dependencies**: Some vector databases need additional setup
+4. **API Keys**: OpenAI embeddings require OPENAI_API_KEY environment variable
+5. **Output Size**: Full test generates ~50MB of detailed results
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Ensure code follows the existing style
-5. Submit a pull request
+## 🤝 Contributing
+
+1. Add new components to respective directories
+2. Update component lists in test files
+3. Follow LangChain integration patterns
+4. Ensure consistent scoring methodology
 
 ## 📄 License
 
-This project is licensed under the MIT License. See LICENSE file for details.
+MIT License - Feel free to use and modify for your research and projects.
 
-## 🔗 References
 
-- [RAG Paper](https://arxiv.org/abs/2005.11401)
-- [BGE Embeddings](https://github.com/FlagOpen/FlagEmbedding)
-- [FAISS](https://github.com/facebookresearch/faiss)
-- [ChromaDB](https://www.trychroma.com/)
-- [Sentence Transformers](https://www.sbert.net/)
-
----
-
-## 📊 **Detailed Performance Comparison Methodology**
-
-This section provides a comprehensive explanation of how different RAG pipeline configurations are systematically compared and evaluated.
-
-### **🔬 Comparison Framework Overview**
-
-Our comparison methodology uses a **controlled variable approach** where we test different pipeline configurations while keeping other variables constant. This allows us to isolate the impact of specific components (chunking strategies, embedding models, retrieval methods) on overall performance.
-
-#### **Test Matrix Design**
-```
-Configuration Variables:
-├── Chunking Strategy: [Fixed, Semantic, Structure-Aware, Hybrid]
-├── Embedding Model: [OpenAI, BGE, Sentence-Transformers, SciBERT]  
-├── Vector Database: [FAISS, ChromaDB, Milvus, Qdrant]
-└── Retrieval Method: [Dense, BM25, Hybrid, Reranked]
-
-Total Possible Combinations: 4 × 4 × 4 × 4 = 256 configurations
-Selected Test Configurations: 7-10 strategic combinations
-```
-
-### **📝 Evaluation Dataset Design**
-
-#### **Industrial Document Test Questions**
-Our evaluation uses **30 carefully crafted questions** designed to test different aspects of RAG performance on technical/industrial content:
-
-**Question Categories:**
-- **Table Extraction (40%)**: Questions requiring precise data lookup from tables
-  - Example: *"For Tubing Size O.D. 1.315", what is the "Gallons Per Linear Foot" for a 4 3/4 inch hole?"*
-- **Comparison Analysis (23%)**: Questions requiring comparative reasoning
-  - Example: *"Which configuration provides higher Cu. Ft. Per Lin. Ft. for a 6 1/2-inch hole?"*
-- **Technical Specifications (17%)**: Questions about technical details and notes
-  - Example: *"What does the triple asterisk note say regarding Buttress joint displacement?"*
-- **Calculation/Formula (13%)**: Questions requiring mathematical understanding
-  - Example: *"Calculate the difference in Gallons Per Lin. Ft. between Two and Three Strings"*
-- **Procedural Knowledge (7%)**: Questions about methods and procedures
-  - Example: *"What is the step-by-step method for calculating tank volume?"*
-
-#### **Difficulty Distribution**
-- **Easy (30%)**: Direct lookup questions with clear answers
-- **Medium (50%)**: Questions requiring some interpretation or calculation
-- **Hard (20%)**: Complex questions requiring multi-step reasoning or cross-referencing
-
-### **📊 Comprehensive Metrics System**
-
-Each pipeline configuration is evaluated using **four main metric categories**, each contributing to an overall composite score:
 
 #### **1. Retrieval Quality Metrics (25% weight)**
 - **Precision@5**: Percentage of top-5 retrieved chunks that are actually relevant

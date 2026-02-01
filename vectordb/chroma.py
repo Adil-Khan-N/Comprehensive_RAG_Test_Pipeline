@@ -1,43 +1,55 @@
-"""ChromaDB vector database implementation."""
+"""ChromaDB vector database implementation using LangChain."""
 
-from typing import List, Dict, Any, Optional
-import numpy as np
+from langchain_community.vectorstores import Chroma
 from .base import BaseVectorDB
+from typing import List, Dict, Any, Optional
+from langchain_core.documents import Document
+import tempfile
 
 
 class ChromaVectorDB(BaseVectorDB):
-    """ChromaDB vector database implementation."""
+    """ChromaDB vector database using LangChain implementation."""
     
-    def __init__(self, collection_name: str = "default"):
+    def __init__(self, embeddings, collection_name: str = "rag_collection", persist_directory: Optional[str] = None):
+        super().__init__()
+        self.embeddings = embeddings
         self.collection_name = collection_name
-        # TODO: Initialize ChromaDB client and collection
-        # import chromadb
-        # self.client = chromadb.Client()
-        # self.collection = self.client.create_collection(collection_name)
-        self.vectors_map = {}
-        self.metadata_map = {}
+        self.persist_directory = persist_directory or tempfile.mkdtemp()
+        self.vectorstore = None
         
-    def add_vectors(self, vectors: List[np.ndarray], ids: List[str], 
-                   metadata: Optional[List[Dict[str, Any]]] = None) -> None:
-        """Add vectors to ChromaDB collection."""
-        # TODO: Implement ChromaDB vector addition
-        for i, (vector, id_) in enumerate(zip(vectors, ids)):
-            self.vectors_map[id_] = vector
-            if metadata:
-                self.metadata_map[id_] = metadata[i]
-        
-    def search(self, query_vector: np.ndarray, k: int = 5) -> List[Dict[str, Any]]:
-        """Search using ChromaDB."""
-        # TODO: Implement ChromaDB search
-        results = []
-        for i, (id_, vector) in enumerate(list(self.vectors_map.items())[:k]):
-            score = np.dot(query_vector, vector)
-            results.append({
-                "id": id_,
-                "score": float(score),
-                "metadata": self.metadata_map.get(id_, {})
-            })
-        return results
+    def add_texts(self, texts: List[str], metadatas: Optional[List[Dict[str, Any]]] = None, ids: Optional[List[str]] = None) -> List[str]:
+        """Add texts to ChromaDB vector store."""
+        if self.vectorstore is None:
+            # Initialize ChromaDB with first batch of texts
+            self.vectorstore = Chroma.from_texts(
+                texts, 
+                self.embeddings, 
+                metadatas=metadatas, 
+                ids=ids,
+                collection_name=self.collection_name,
+                persist_directory=self.persist_directory
+            )
+            return ids or [str(i) for i in range(len(texts))]
+        else:
+            # Add to existing ChromaDB collection
+            return self.vectorstore.add_texts(texts, metadatas=metadatas, ids=ids)
+    
+    def similarity_search(self, query: str, k: int = 5) -> List[Document]:
+        """Search for similar documents in ChromaDB."""
+        if self.vectorstore is None:
+            return []
+        return self.vectorstore.similarity_search(query, k=k)
+    
+    def similarity_search_with_score(self, query: str, k: int = 5) -> List[tuple]:
+        """Search with similarity scores."""
+        if self.vectorstore is None:
+            return []
+        return self.vectorstore.similarity_search_with_score(query, k=k)
+    
+    def persist(self):
+        """Persist the ChromaDB collection."""
+        if self.vectorstore is not None:
+            self.vectorstore.persist()
         
     def delete(self, ids: List[str]) -> None:
         """Delete vectors by ids."""

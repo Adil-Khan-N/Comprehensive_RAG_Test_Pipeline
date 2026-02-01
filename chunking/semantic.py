@@ -1,30 +1,25 @@
-"""Semantic-based text chunking implementation."""
+"""Semantic-based text chunking implementation using LangChain."""
 
-from typing import List
+from langchain_experimental.text_splitter import SemanticChunker as LangChainSemanticChunker
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from .base import BaseChunker
 
 
 class SemanticChunker(BaseChunker):
-    """Chunks text based on semantic similarity."""
+    """Chunks text based on semantic similarity using LangChain SemanticChunker."""
     
-    def __init__(self, similarity_threshold: float = 0.8):
+    def __init__(self, similarity_threshold: float = 0.8, embeddings=None):
+        super().__init__()
         self.similarity_threshold = similarity_threshold
         
-    def chunk(self, text: str) -> List[str]:
-        """Chunk text based on semantic boundaries."""
-        # TODO: Implement semantic chunking using embeddings
-        sentences = text.split('.')
-        chunks = []
-        current_chunk = ""
+        # Use default embeddings if none provided
+        if embeddings is None:
+            embeddings = HuggingFaceEmbeddings(
+                model_name="sentence-transformers/all-MiniLM-L6-v2"
+            )
         
-        for sentence in sentences:
-            if len(current_chunk + sentence) > 500:  # Placeholder logic
-                chunks.append(current_chunk.strip())
-                current_chunk = sentence
-            else:
-                current_chunk += sentence + "."
-                
-        if current_chunk:
-            chunks.append(current_chunk.strip())
-            
-        return chunks
+        self.text_splitter = LangChainSemanticChunker(
+            embeddings=embeddings,
+            breakpoint_threshold_type="percentile",
+            breakpoint_threshold_amount=similarity_threshold * 100
+        )

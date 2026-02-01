@@ -1,28 +1,49 @@
-"""Qdrant vector database implementation."""
+"""Qdrant vector database implementation using LangChain."""
 
-from typing import List, Dict, Any, Optional
-import numpy as np
+from langchain_qdrant import QdrantVectorStore
 from .base import BaseVectorDB
+from typing import List, Dict, Any, Optional
+from langchain_core.documents import Document
+from qdrant_client import QdrantClient
+import tempfile
 
 
 class QdrantVectorDB(BaseVectorDB):
-    """Qdrant vector database implementation."""
+    """Qdrant vector database using LangChain implementation."""
     
-    def __init__(self, host: str = "localhost", port: int = 6333, 
-                 collection_name: str = "default"):
-        self.host = host
-        self.port = port
+    def __init__(self, embeddings, collection_name: str = "rag_collection", 
+                 url: Optional[str] = None, path: Optional[str] = None):
+        super().__init__()
+        self.embeddings = embeddings
         self.collection_name = collection_name
-        # TODO: Initialize Qdrant client
-        # from qdrant_client import QdrantClient
-        # self.client = QdrantClient(host=host, port=port)
-        self.vectors_map = {}
-        self.metadata_map = {}
         
-    def add_vectors(self, vectors: List[np.ndarray], ids: List[str], 
-                   metadata: Optional[List[Dict[str, Any]]] = None) -> None:
-        """Add vectors to Qdrant collection."""
-        # TODO: Implement Qdrant vector upsert
+        # Use local storage if no URL provided
+        if url is None and path is None:
+            path = tempfile.mkdtemp()
+            
+        # Initialize Qdrant client
+        if url:
+            client = QdrantClient(url=url)
+        else:
+            client = QdrantClient(path=path)
+            
+        self.vectorstore = QdrantVectorStore(
+            client=client,
+            collection_name=collection_name,
+            embeddings=embeddings
+        )
+        
+    def add_texts(self, texts: List[str], metadatas: Optional[List[Dict[str, Any]]] = None, ids: Optional[List[str]] = None) -> List[str]:
+        """Add texts to Qdrant vector store."""
+        return self.vectorstore.add_texts(texts, metadatas=metadatas, ids=ids)
+    
+    def similarity_search(self, query: str, k: int = 5) -> List[Document]:
+        """Search for similar documents in Qdrant."""
+        return self.vectorstore.similarity_search(query, k=k)
+    
+    def similarity_search_with_score(self, query: str, k: int = 5) -> List[tuple]:
+        """Search with similarity scores."""
+        return self.vectorstore.similarity_search_with_score(query, k=k)
         for i, (vector, id_) in enumerate(zip(vectors, ids)):
             self.vectors_map[id_] = vector
             if metadata:

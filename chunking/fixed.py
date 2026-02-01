@@ -1,25 +1,20 @@
-"""Fixed-size text chunking implementation."""
+"""Fixed-size text chunking implementation using LangChain."""
 
-from typing import List
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from .base import BaseChunker
 
 
 class FixedSizeChunker(BaseChunker):
-    """Chunks text into fixed-size pieces."""
+    """Chunks text into fixed-size pieces using LangChain RecursiveCharacterTextSplitter."""
     
     def __init__(self, chunk_size: int = 512, overlap: int = 50):
+        super().__init__()
         self.chunk_size = chunk_size
         self.overlap = overlap
         
-    def chunk(self, text: str) -> List[str]:
-        """Chunk text into fixed-size pieces with overlap."""
-        chunks = []
-        start = 0
-        
-        while start < len(text):
-            end = start + self.chunk_size
-            chunk = text[start:end]
-            chunks.append(chunk)
-            start = end - self.overlap
-            
-        return chunks
+        self.text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=overlap,
+            length_function=len,
+            is_separator_regex=False
+        )

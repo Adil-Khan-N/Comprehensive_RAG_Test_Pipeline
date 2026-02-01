@@ -1,4 +1,4 @@
-"""RAG Framework - embeddings module."""
+"""RAG Framework - embeddings module with LangChain implementations."""
 
 from .base import BaseEmbeddings
 from .openai import OpenAIEmbeddings

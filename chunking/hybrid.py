@@ -1,4 +1,4 @@
-"""Hybrid text chunking combining multiple strategies."""
+"""Hybrid text chunking combining multiple LangChain strategies."""
 
 from typing import List
 from .base import BaseChunker
@@ -7,16 +7,20 @@ from .semantic import SemanticChunker
 
 
 class HybridChunker(BaseChunker):
-    """Combines multiple chunking strategies."""
+    """Combines multiple LangChain chunking strategies."""
     
-    def __init__(self, use_semantic: bool = True, use_fixed: bool = True):
+    def __init__(self, use_semantic: bool = True, use_fixed: bool = True, 
+                 semantic_threshold: float = 0.8, chunk_size: int = 512, chunk_overlap: int = 50):
+        super().__init__()
         self.use_semantic = use_semantic
         self.use_fixed = use_fixed
-        self.semantic_chunker = SemanticChunker() if use_semantic else None
-        self.fixed_chunker = FixedSizeChunker() if use_fixed else None
+        
+        # Initialize chunkers with LangChain implementations
+        self.semantic_chunker = SemanticChunker(similarity_threshold=semantic_threshold) if use_semantic else None
+        self.fixed_chunker = FixedSizeChunker(chunk_size=chunk_size, overlap=chunk_overlap) if use_fixed else None
         
     def chunk(self, text: str) -> List[str]:
-        """Apply hybrid chunking strategy."""
+        """Apply hybrid chunking strategy using LangChain components."""
         chunks = []
         
         if self.semantic_chunker:
